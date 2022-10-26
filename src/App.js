@@ -1,29 +1,32 @@
 import { useReducer } from "react";
+import useEvent from "./useEvents";
 import reducer, { ACTION } from "./reducer";
 function App() {
-  const [state, dispatch] = useReducer(reducer, {
-    count: 0,
-    color: false,
-    userInput: "",
-  });
+  const { state, userInputAction, increment, decrement, toggleColor } =
+    useEvent();
+  // const [state, dispatch] = useReducer(reducer, {
+  //   count: 0,
+  //   color: false,
+  //   userInput: "",
+  // });
+  console.log(state);
   return (
     <main className="App" style={{ color: state.color ? "red" : "white" }}>
       <input
         type="text"
         value={state.userInput}
         onChange={(e) =>
-          dispatch({ type: ACTION.USER_INPUT, payload: e.target.value })
+          // dispatch({ type: ACTION.USER_INPUT, payload: e.target.value })
+          userInputAction(e.target.value)
         }
       />
       <br />
       <br />
       <p>{state.count}</p>
       <section>
-        <button onClick={() => dispatch({ type: ACTION.DECREMENT })}>-</button>
-        <button onClick={() => dispatch({ type: ACTION.INCREMENT })}>+</button>
-        <button onClick={() => dispatch({ type: ACTION.TOGGLE_COLOR })}>
-          Color
-        </button>
+        <button onClick={decrement}>-</button>
+        <button onClick={increment}>+</button>
+        <button onClick={toggleColor}>Color</button>
       </section>
       <br />
       <br />
